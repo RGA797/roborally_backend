@@ -57,6 +57,7 @@ public class GameController {
     public ResponseEntity<Integer> addPlayer(@PathVariable("boardId") int boardId, @RequestBody PlayerDto playerDto) throws ServiceException, MappingException, DaoException {
         Board board = gameService.getBoard(boardId);
         Player player = dtoMapper.convertToEntity(playerDto, board);
+        System.out.println(player);
         int playerId = gameService.addPlayer(boardId, player);
         return new ResponseEntity<>(playerId, HttpStatus.CREATED);
     }
@@ -89,6 +90,12 @@ public class GameController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @PostMapping("/board/{boardId}/phase/{phaseId}")
+    public ResponseEntity<Integer> setPhase(@PathVariable("boardId") int boardId, @PathVariable ("phaseId") int phaseId) throws ServiceException, DaoException {
+        gameService.setPhase(boardId, phaseId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
     /**
      * Set the current player
      *
@@ -113,6 +120,4 @@ public class GameController {
         gameService.switchCurrentPlayer(boardId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
-
-
 }

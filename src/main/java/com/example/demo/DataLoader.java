@@ -24,16 +24,14 @@ public class DataLoader implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) throws ServiceException, DaoException {
         Board board = new Board(8, 8, "Board1");
-        Player player1 = new Player(board, "red", "Player1Name");
-        Player player2 = new Player(board, "pink", "Player2Name");
         gameService.saveBoard(board);
-
-        gameService.addPlayer(board.getGameId(), player1);
-        gameService.addPlayer(board.getGameId(), player2);
-        gameService.setCurrentPlayer(board.getGameId(), player1.getPlayerId());
+        Player player = new Player(board, "blue", "Player1Name");
+        gameService.addPlayer(board.getGameId(), player);
+        gameService.setCurrentPlayer(board.getGameId(), player.getPlayerId());
         gameService.moveCurrentPlayer(board.getGameId(), 1, 1);
-        gameService.setCurrentPlayer(board.getGameId(), player2.getPlayerId());
-        gameService.moveCurrentPlayer(board.getGameId(), 1, 2);
+        player = new Player(board, "green", "Player2Name");
+        gameService.addPlayer(board.getGameId(), player);
+        gameService.movePlayer(board, 4, 4, player.getPlayerId());
         /*gameService.switchCurrentPlayer(board);*/
 
     }

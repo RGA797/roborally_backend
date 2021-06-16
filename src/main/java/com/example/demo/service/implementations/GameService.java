@@ -6,11 +6,15 @@ import com.example.demo.dal.interfaces.ISpaceDao;
 import com.example.demo.exceptions.DaoException;
 import com.example.demo.exceptions.ServiceException;
 import com.example.demo.model.Board;
+import com.example.demo.model.Phase;
 import com.example.demo.model.Player;
 import com.example.demo.model.Space;
 import com.example.demo.service.interfaces.IGameService;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+
+import static com.example.demo.model.Phase.*;
+import static com.example.demo.model.Phase.PLAYER_INTERACTION;
 
 @Service
 public class GameService implements IGameService {
@@ -23,6 +27,7 @@ public class GameService implements IGameService {
         this.spaceDao = spaceDao;
         this.playerDao = playerDao;
     }
+
 
     @Override
     public Board getBoard(int boardId) throws ServiceException, DaoException {
@@ -85,10 +90,13 @@ public class GameService implements IGameService {
 
     @Override
     public int addPlayer(int boardId, Player player) throws ServiceException, DaoException {
+        Board board = this.getBoard(boardId);
         if (player == null) {
             throw new ServiceException("Player to add to board was null", HttpStatus.BAD_REQUEST);
         }
-        Board board = this.getBoard(boardId);
+        if (board.getPlayersNumber() >=6) {
+            throw new ServiceException("Only up to 6 players", HttpStatus.BAD_REQUEST);
+        }
         int playerId = playerDao.addPlayer(boardId, player);
         board.addPlayer(player);
         boardDao.updateBoard(board, board.getGameId());
@@ -111,7 +119,6 @@ public class GameService implements IGameService {
         }
         currentPlayer.setSpace(targetSpace);
         boardDao.updateBoard(board, board.getGameId());
-
     }
 
     @Override
@@ -135,5 +142,20 @@ public class GameService implements IGameService {
         int nextPlayerNumber = (currentPlayerNumber + 1) % amountOfPlayers;
         board.setCurrentPlayer(board.getPlayer(nextPlayerNumber));
         boardDao.updateBoard(board, board.getGameId());
+    }
+
+    @Override
+    public void setPhase(int boardId, int phaseId) throws ServiceException, DaoException {
+        Board board = this.getBoard(boardId);
+        System.out.println(board.getPhase());
+        if (phaseId > 3 || phaseId < 0) {
+            throw new ServiceException("bad phase request. only valid numbers: 0-3", HttpStatus.BAD_REQUEST);
+        }
+        Phase[] phases = {INITIALISATION, PROGRAMMING, ACTIVATION, PLAYER_INTERACTION};
+        Phase phase = phases[phaseId];
+        if (phase != board.getPhase()) {
+            board.assertPhase(phase);
+        }
+        System.out.println(board.getPhase());
     }
 }

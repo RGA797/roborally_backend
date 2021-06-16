@@ -38,9 +38,11 @@ public class Space {
         this.y = y;
         player = null;
     }
+
     public Player getPlayer() {
         return player;
     }
+
     public void setPlayer(Player player) {
         Player oldPlayer = this.player;
         if (player != oldPlayer &&
@@ -55,4 +57,5 @@ public class Space {
             }
         }
     }
+
 }

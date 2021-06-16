@@ -26,7 +26,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.demo.model.Phase.INITIALISATION;
+import static com.example.demo.model.Phase.*;
 
 
 /**
@@ -42,15 +42,17 @@ public class Board {
     private final Space[][] spaces;
     private final List<Player> players = new ArrayList<Player>();
     private Player current;
-    private Phase phase = INITIALISATION;
+    private Phase phase;
     private int step = 0;
     private boolean stepMode;
     private int counter = 0;
+
 
     public Board(int width, int height, @NotNull String boardName) {
         this.boardName = boardName;
         this.width = width;
         this.height = height;
+        this.phase = INITIALISATION;
         spaces = new Space[width][height];
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
@@ -60,12 +62,15 @@ public class Board {
         }
         this.stepMode = false;
     }
+
     public Board(int width, int height) {
         this(width, height, "defaultboard");
     }
+
     public Integer getGameId() {
         return gameId;
     }
+
     public void setGameId(int gameId) {
         if (this.gameId == null) {
             this.gameId = gameId;
@@ -128,11 +133,19 @@ public class Board {
         return phase;
     }
 
-    public void setPhase(Phase phase) {
-        if (phase != this.phase) {
-            this.phase = phase;
+    public void setPhase(int phaseId) {
+        Phase[] phases = {INITIALISATION, PROGRAMMING, ACTIVATION, PLAYER_INTERACTION};
+        if (phases[phaseId] != phase) {
+            phase = phases[phaseId];
         }
     }
+
+    public void assertPhase(Phase new_phase) {
+        if (new_phase != phase) {
+            phase = new_phase;
+        }
+    }
+
 
     public int getStep() {
         return step;
@@ -189,6 +202,7 @@ public class Board {
                 x = (x + 1) % width;
                 break;
         }
+
         return getSpace(x, y);
     }
 
@@ -196,6 +210,7 @@ public class Board {
         // This is actually a view aspect, but for making the first task easy for
         // the students, this method gives a string representation of the current
         // status of the game
+
 
         return "Player = " + getCurrentPlayer().getName() + " Counter = " + getCounter();
     }

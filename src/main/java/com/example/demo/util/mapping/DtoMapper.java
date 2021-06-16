@@ -3,14 +3,24 @@ package com.example.demo.util.mapping;
 import com.example.demo.controller.GameController.BoardDto;
 import com.example.demo.controller.GameController.PlayerDto;
 import com.example.demo.controller.GameController.SpaceDto;
+import com.example.demo.dal.interfaces.IGameDao;
+import com.example.demo.exceptions.DaoException;
 import com.example.demo.exceptions.MappingException;
+import com.example.demo.gameAdmin.GameDTO;
 import com.example.demo.model.Board;
 import com.example.demo.model.Player;
 import com.example.demo.model.Space;
+import com.example.demo.model.admin.Game;
 import org.springframework.stereotype.Service;
 
 @Service
 public class DtoMapper implements IDtoMapper {
+    private IGameDao gameDao;
+
+    public DtoMapper(IGameDao gameDao) {
+        this.gameDao = gameDao;
+    }
+
     public PlayerDto convertToDto(Player player) throws MappingException {
         if(player == null){
             throw new MappingException("Player was null");
@@ -99,5 +109,19 @@ public class DtoMapper implements IDtoMapper {
             return new Player(board, playerDto.getPlayerColor(), playerDto.getPlayerName());
         }
         return null;
+    }
+
+    public Game convertToEntity(GameDTO gameDTO) throws DaoException {
+        if (gameDTO.gameId == null){
+            Game game = new Game();
+            game.name = gameDTO.name;
+            return game;
+        } else {
+            Game game = gameDao.getGame(gameDTO.gameId);
+            if(gameDTO.name != null){
+                game.name =gameDTO.name;
+            }
+            return game;
+        }
     }
 }

@@ -29,3 +29,5 @@ package com.example.demo.model;
 public enum Phase {
     INITIALISATION, PROGRAMMING, ACTIVATION, PLAYER_INTERACTION
 }
+
+
