@@ -1,4 +1,6 @@
 package com.example.demo.service.implementations;
+import com.example.demo.dal.implementations.BoardDao;
+import com.example.demo.dal.implementations.GameDao;
 import com.example.demo.dal.interfaces.IBoardDao;
 import com.example.demo.dal.interfaces.IGameDao;
 import com.example.demo.exceptions.DaoException;
@@ -17,9 +19,9 @@ import java.util.List;
 
 @Service
 public class GameAdminService implements IGameAdminService {
-    private final IBoardDao boardDao;
-    private final IGameDao gameDao;
-    public GameAdminService(IBoardDao boardDao, IGameDao gameDao) {
+    private final BoardDao boardDao;
+    private final GameDao gameDao;
+    public GameAdminService(BoardDao boardDao, GameDao gameDao) {
         this.boardDao = boardDao;
         this.gameDao = gameDao;
     }
@@ -43,7 +45,6 @@ public class GameAdminService implements IGameAdminService {
             }
         }
         return result;
-
          */
         return gameDao.getGames();
     }
