@@ -30,6 +30,7 @@ public class GameController {
      */
     @GetMapping("/board/{boardId}")
     public ResponseEntity<BoardDto> getBoard(@PathVariable("boardId") int boardId) throws ServiceException, MappingException, DaoException {
+        System.out.println("boardId = " + boardId);
         Board board = gameService.getBoard(boardId);
         return new ResponseEntity<>(dtoMapper.convertToDto(board), HttpStatus.OK);
     }
@@ -72,6 +73,9 @@ public class GameController {
     public ResponseEntity<Integer> createBoard(@RequestBody BoardDto boardDTO) throws ServiceException, DaoException {
         Board board = dtoMapper.convertToEntity(boardDTO);
         int boardId = gameService.saveBoard(board);
+        Player player = new Player(board, "blue", "Player1Name");
+        gameService.addPlayer(boardId, player);
+        gameService.setCurrentPlayer(boardId, player.getPlayerId());
         return new ResponseEntity<>(boardId, HttpStatus.CREATED);
     }
 
