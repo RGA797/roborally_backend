@@ -12,5 +12,5 @@ import java.util.List;
 public interface IGameAdminService {
     Collection<Game> getGames() throws ServiceException, DaoException;
     int saveGame(Game game) throws ServiceException, DaoException;
-
+    int updateGame(int gameId, String name) throws ServiceException, DaoException;
 }

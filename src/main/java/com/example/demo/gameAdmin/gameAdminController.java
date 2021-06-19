@@ -34,6 +34,16 @@ public class gameAdminController {
         return new ResponseEntity<>(game.gameId, HttpStatus.OK);
     }
 
+    @PutMapping("/game/{gameId}/{name}")
+    public ResponseEntity<Integer> updateGame(@PathVariable("gameId") int gameId, @PathVariable("name") String name) throws ServiceException, DaoException{
+        System.out.println("reached 1");
+        if (gameId < 0){
+            return new ResponseEntity<>(0, HttpStatus.BAD_REQUEST);
+        }
+        gameAdminService.updateGame(gameId, name);
+        return new ResponseEntity<>(gameId, HttpStatus.OK);
+    }
+
     @GetMapping("/game")
     public ResponseEntity<Collection<Game>> getGames() throws ServiceException, MappingException, DaoException{
         Collection<Game> games = gameAdminService.getGames();

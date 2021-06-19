@@ -30,7 +30,7 @@ public class GameController {
      */
     @GetMapping("/board/{boardId}")
     public ResponseEntity<BoardDto> getBoard(@PathVariable("boardId") int boardId) throws ServiceException, MappingException, DaoException {
-        System.out.println("boardId = " + boardId);
+        //System.out.println("boardId = " + boardId);
         Board board = gameService.getBoard(boardId);
         return new ResponseEntity<>(dtoMapper.convertToDto(board), HttpStatus.OK);
     }
@@ -122,6 +122,12 @@ public class GameController {
     @PutMapping("/board/{boardId}/switchplayer")
     public ResponseEntity<Void> switchPlayer(@PathVariable("boardId") int boardId) throws ServiceException, DaoException {
         gameService.switchCurrentPlayer(boardId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PutMapping("/board/{boardId}")
+    public ResponseEntity<Void> updateBoard(@PathVariable("boardId") int boardId) throws ServiceException, DaoException {
+        gameService.updateBoard(boardId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

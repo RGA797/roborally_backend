@@ -35,6 +35,20 @@ public class GameDao implements IGameDao {
         return -1;
     }
 
+
+    public int updateGame(int gameId, String name) throws DaoException {
+        Integer gameID = new Integer(gameId);
+        if (gameID != null) {
+            if (gameID == null) {
+                return -1;
+            } else {
+                games.get(gameID).name = name;
+                return gameID;
+            }
+        }
+        return -1;
+    }
+
     @Override
     public Collection<Game> getGames() {
         return games.values();

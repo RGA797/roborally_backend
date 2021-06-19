@@ -145,6 +145,21 @@ public class GameService implements IGameService {
     }
 
     @Override
+    public void updateBoard(int boardId) throws ServiceException, DaoException {
+        //needs implementation
+
+//        Board board = this.getBoard(boardId);
+//        int amountOfPlayers = board.getPlayersNumber();
+//        if (amountOfPlayers <= 0) {
+//            throw new ServiceException("Trying to switch current player, but board has no players", HttpStatus.BAD_REQUEST);
+//        }
+//        int currentPlayerNumber = board.getPlayerNumber(board.getCurrentPlayer());
+//        int nextPlayerNumber = (currentPlayerNumber + 1) % amountOfPlayers;
+//        board.setCurrentPlayer(board.getPlayer(nextPlayerNumber));
+//        boardDao.updateBoard(board, board.getGameId());
+    }
+
+    @Override
     public void setPhase(int boardId, int phaseId) throws ServiceException, DaoException {
         Board board = this.getBoard(boardId);
         System.out.println(board.getPhase());
