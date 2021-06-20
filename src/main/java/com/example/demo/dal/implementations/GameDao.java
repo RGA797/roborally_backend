@@ -1,5 +1,6 @@
 package com.example.demo.dal.implementations;
 
+import com.example.demo.dal.interfaces.IBoardDao;
 import com.example.demo.dal.interfaces.IGameDao;
 import com.example.demo.exceptions.DaoException;
 import com.example.demo.model.Board;
@@ -52,6 +53,7 @@ public class GameDao implements IGameDao {
                 return -1;
             } else {
                 games.get(gameID).name = name;
+                BoardDao.boards.get(gameID).boardName = name;
                 return gameID;
             }
         }

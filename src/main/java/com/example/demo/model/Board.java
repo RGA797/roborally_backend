@@ -37,7 +37,7 @@ import static com.example.demo.model.Phase.*;
 public class Board {
     public final int width;
     public final int height;
-    public final String boardName;
+    public String boardName;
     private Integer gameId;
     private final Space[][] spaces;
     private final List<Player> players = new ArrayList<Player>();
