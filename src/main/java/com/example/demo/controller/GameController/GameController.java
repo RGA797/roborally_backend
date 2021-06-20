@@ -76,7 +76,11 @@ public class GameController {
         Player player = new Player(board, "blue", "Player1Name");
         Player player2 = new Player(board, "red", "Player2Name");
         gameService.addPlayer(boardId, player);
+        gameService.setCurrentPlayer(boardId, player.getPlayerId());
+        gameService.moveCurrentPlayer(board.getGameId(), 1, 1);
         gameService.addPlayer(boardId, player2);
+        gameService.setCurrentPlayer(boardId, player2.getPlayerId());
+        gameService.moveCurrentPlayer(board.getGameId(), 4, 4);
         gameService.setCurrentPlayer(boardId, player.getPlayerId());
         return new ResponseEntity<>(boardId, HttpStatus.CREATED);
     }
