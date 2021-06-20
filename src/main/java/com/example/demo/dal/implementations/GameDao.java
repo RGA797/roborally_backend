@@ -34,6 +34,15 @@ public class GameDao implements IGameDao {
         }
         return -1;
     }
+    public int removeGame(int gameId) throws DaoException {
+        Integer gameID = new Integer(gameId);
+        if (gameID == null) {
+            return -1;
+        } else {
+            games.remove(gameID);
+            return gameID;
+        }
+    }
 
 
     public int updateGame(int gameId, String name) throws DaoException {
